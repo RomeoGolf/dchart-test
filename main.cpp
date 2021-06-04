@@ -1,6 +1,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
 #include <Fl/Enumerations.h>
 
 #include <DChartBase.h>
@@ -8,6 +9,11 @@
 
 #include <math.h>
 #include <memory>
+#include <iostream>
+
+void onTestButton(Fl_Widget * w, void * d) {
+    std::cout << "test callback\n";
+}
 
 int main (int argc, char ** argv)
 {
@@ -30,6 +36,11 @@ int main (int argc, char ** argv)
                               chartWidth,
                               controlBoxHeight,
                               nullptr);
+
+    auto testButton = std::make_unique<Fl_Button>(controlBox->x() + vertMargin,
+                                                  controlBox->y() + horMargin,
+                                                  50, 20, "test");
+    testButton->callback((Fl_Callback *) onTestButton);
 
     window->end();
 
