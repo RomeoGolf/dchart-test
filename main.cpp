@@ -7,22 +7,21 @@
 #include <Series.h>
 
 #include <math.h>
+#include <memory>
 
 int main (int argc, char ** argv)
 {
-  Fl_Window *window;
-  Fl_Box *box;
+  auto window = std::make_unique<Fl_Window>(1000, 800);
 
-  window = new Fl_Window (1000, 800);
-
-  DChartBase *dcb = new DChartBase(20, 20,
+  auto dcb = std::make_unique<DChartBase>(20, 20,
                                    window->w() - 40,
-                                   window->h() - 40, "");
-  dcb->labelsize(21);
-  window->resizable(dcb);
+                                   window->h() - 140, "");
+  window->resizable(*dcb);
 
-  window->end ();
-  window->show (argc, argv);
+  window->end();
+  window->show(argc, argv);
+
+
 
   dcb->addSeries();
   dcb->series.back()->addXY(0,0);
