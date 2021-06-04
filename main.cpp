@@ -11,17 +11,29 @@
 
 int main (int argc, char ** argv)
 {
-    auto window = std::make_unique<Fl_Window>(1000, 800);
+    int horMargin = 10;
+    int vertMargin = 10;
+    int chartWidth = 800;
+    int chartHeight = 600;
+    int controlBoxHeight = 100;
 
-    auto dcb = std::make_unique<DChartBase>(20, 20,
-                                            window->w() - 40,
-                                            window->h() - 140, "");
+    auto window = std::make_unique<Fl_Window>(chartWidth + horMargin * 2,
+                 chartHeight + vertMargin + controlBoxHeight + vertMargin * 2);
+
+    auto dcb = std::make_unique<DChartBase>(horMargin, vertMargin,
+                                            chartWidth, chartHeight, "");
     window->resizable(*dcb);
 
+    auto controlBox = std::make_unique<Fl_Box>(FL_EMBOSSED_BOX,
+                              horMargin,
+                              vertMargin + chartHeight + vertMargin,
+                              chartWidth,
+                              controlBoxHeight,
+                              nullptr);
+
     window->end();
+
     window->show(argc, argv);
-
-
 
     dcb->addSeries();
     dcb->series.back()->addXY(0,0);
