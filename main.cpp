@@ -9,10 +9,29 @@
 
 #include <math.h>
 #include <memory>
+#include <random>
 #include <iostream>
 
 void onTestButton(Fl_Widget * w, void * d) {
-    std::cout << "test callback\n";
+    std::cout << "[test callback] "
+              << std::endl;
+}
+
+void onAddSeriesButton(Fl_Widget * w, std::unique_ptr<DChartBase> & d) {
+    std::unique_ptr<DChartBase> & dcb = d;
+    dcb->addSeries();
+
+    std::random_device rd;
+    int start = round((double) rd() / (double) rd.max() * 10) - 5;
+    int stop = round((double) rd() / (double) rd.max() * 10) + 50;
+
+    for (double t = start; t < stop; t++)
+    {
+        double val = round((double) rd() / (double) rd.max() * 150) - 50;
+        dcb->series.back()->addXY(t, val);
+    }
+    dcb->series.back()->setColor(FL_MAGENTA);
+    dcb->redraw();
 }
 
 int main (int argc, char ** argv)
@@ -37,10 +56,17 @@ int main (int argc, char ** argv)
                               controlBoxHeight,
                               nullptr);
 
-    auto testButton = std::make_unique<Fl_Button>(controlBox->x() + vertMargin,
-                                                  controlBox->y() + horMargin,
+    auto testButton = std::make_unique<Fl_Button>(controlBox->x() + horMargin,
+                                                  controlBox->y() + vertMargin,
                                                   50, 20, "test");
     testButton->callback((Fl_Callback *) onTestButton);
+
+    auto addSeriesButton = std::make_unique<Fl_Button>(
+                controlBox->x() + horMargin + testButton->w() + vertMargin,
+                controlBox->y() + vertMargin,
+                80, 20, "add series");
+    addSeriesButton->callback((Fl_Callback *) onAddSeriesButton, &dcb);
+
 
     window->end();
 
@@ -76,8 +102,6 @@ int main (int argc, char ** argv)
     }
     dcb->series.back()->setColor(FL_BLUE);
     dcb->series.back()->setCaption("cosinus");
-
-    //dcb->unZoom();
 
     return(Fl::run());
 }
