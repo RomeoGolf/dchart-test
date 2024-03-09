@@ -12,7 +12,8 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-L/usr/lib" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add directory="../dchart/bin/Debug" />
@@ -26,6 +27,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-s" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add directory="../dchart/bin/Release" />
@@ -33,26 +35,22 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=gnu++17" />
+			<Add option="-std=c++20" />
 			<Add option="-mms-bitfields" />
-			<Add option="-DWIN32" />
 			<Add directory="C:/FLTK/include" />
 			<Add directory="../dchart/include" />
 			<Add directory="C:/boost_1_76_0" />
+			<Add directory="/usr/include" />
+			<Add directory="/usr/include/FL" />
+			<Add directory="/usr/include/Fl" />
+			<Add directory="/usr/include/boost" />
+			<Add directory="/usr/include/boost/predef/os" />
 		</Compiler>
 		<Linker>
-			<Add option="-static" />
 			<Add library="fltk" />
-			<Add library="ole32" />
-			<Add library="uuid" />
-			<Add library="comctl32" />
-			<Add library="wsock32" />
 			<Add library="m" />
-			<Add library="gdi32" />
-			<Add library="user32" />
-			<Add library="kernel32" />
 			<Add library="dchart" />
-			<Add directory="C:/FLTK/lib" />
+			<Add library="X11" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>
